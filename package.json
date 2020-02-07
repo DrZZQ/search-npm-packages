@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "Advanced search for npm packages",
   "main": "index.js",
-  "scripts": {
-    "test": "node index.test.js"
-  },
   "keywords": [
     "npm",
     "search"
@@ -17,9 +14,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^13.7.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.5",
     "@types/request": "^2.48.4",
-    "request": "^2.88.0",
-    "typescript": "^3.7.5"
+    "@types/node": "^13.7.0"
   }
 }

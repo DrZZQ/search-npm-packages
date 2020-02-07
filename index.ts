@@ -3,7 +3,6 @@ import {URLSearchParams} from "url";
 import {Runtime} from "inspector";
 
 export type RegistryPackage = {
-    package: {
         name: string
         scope: string
         version: string
@@ -42,16 +41,6 @@ export type RegistryPackage = {
             email: string
         }>
         keywordsTruncated: boolean
-    }
-    score: {
-        final: number,
-        detail: {
-            quality: number
-            popularity: number
-            maintenance: number
-        }
-    }
-    searchScore: number
 }
 
 export type NpmSearchParams = {
@@ -63,21 +52,22 @@ export type NpmSearchParams = {
         'quality'
 }
 
-export default function npmSearch(search: NpmSearchParams): Promise<Array<RegistryPackage>> {
+export default function npmSearch(search: NpmSearchParams): Promise<RegistryPackage[]> {
     return new Promise((resolve, reject) => {
         request(createRequestParams(search), (err, res, body) => {
             if (err) reject(err);
-            resolve(JSON.parse(body).objects)
+            resolve(JSON.parse(body).objects.map(obj => obj.package))
         })
     })
 }
 
-function createRequestParams(options: NpmSearchParams): UriOptions & CoreOptions { // UriOptions & CoreOptions from @types/request package
+function createRequestParams(options: NpmSearchParams, page?: number): UriOptions & CoreOptions { // UriOptions & CoreOptions from @types/request package
     const searchParams = new URLSearchParams();
 
-    if (options.name)/*-----*/searchParams.set('q', options.name);
-    if (options.keywords)/*-*/searchParams.set('q', 'keywords:' + options.keywords.join(' '));
-    if (options.ranking)/*--*/searchParams.set('ranking', options.ranking);
+    if (options.name)/*-----*/ searchParams.set('q', options.name);
+    if (options.keywords)/*-*/ searchParams.set('q', 'keywords:' + options.keywords.join(' '));
+    if (options.ranking)/*--*/ searchParams.set('ranking', options.ranking);
+    if (page)/*-------------*/ searchParams.set('page', String(page));
 
     return {
         method: 'GET',
