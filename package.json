@@ -4,7 +4,7 @@
   "description": "Advanced search for npm packages",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.test.js"
   },
   "keywords": [
     "npm",
@@ -14,6 +14,8 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^13.7.0",
+    "@types/request": "^2.48.4",
+    "request": "^2.88.0",
     "typescript": "^3.7.5"
   }
 }
