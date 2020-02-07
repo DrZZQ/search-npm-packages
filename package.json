@@ -11,6 +11,10 @@
     "search"
   ],
   "author": "ZZQ <ZZGaming@list.ru>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZZZZZZQQQQQQ/search-npm-packages.git"
+  },
   "license": "MIT",
   "dependencies": {
     "@types/node": "^13.7.0",
