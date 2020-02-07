@@ -56,7 +56,9 @@ export default function npmSearch(search: NpmSearchParams): Promise<RegistryPack
     return new Promise((resolve, reject) => {
         request(createRequestParams(search), (err, res, body) => {
             if (err) reject(err);
-            resolve(JSON.parse(body).objects.map(obj => obj.package))
+            const allFoundPackages = JSON.parse(body).objects.map(obj => obj.package);
+            // ...
+            resolve(allFoundPackages)
         })
     })
 }
