@@ -1,0 +1,12 @@
+{
+  "name": "search-npm-packages",
+  "version": "0.1.0",
+  "description": "Advanced search for npm packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["npm", "search"],
+  "author": "ZZQ <ZZGaming@list.ru>",
+  "license": "MIT"
+}
