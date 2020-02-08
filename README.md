@@ -1,5 +1,9 @@
 # Search npm packages
 
+![version](https://img.shields.io/npm/v/search-npm-packages?style=flat-square)
+![licence](https://img.shields.io/npm/l/search-npm-packages?style=flat-square)
+![npm type definitions](https://img.shields.io/npm/types/search-npm-packages?style=flat-square)
+
 Promise based package for searching other npm packages in registry.
 With rating search support as on the npmjs.com
 
