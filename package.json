@@ -1,7 +1,7 @@
 {
   "name": "search-npm-packages",
   "version": "0.1.0",
-  "description": "Advanced search for npm packages",
+  "description": "Promise based search for npm packages with rating search support",
   "main": "index.js",
   "keywords": [
     "npm",

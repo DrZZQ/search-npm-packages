@@ -1,6 +1,5 @@
-import request, {CoreOptions, UriOptions} from "request";
-import {URLSearchParams} from "url";
-import {Runtime} from "inspector";
+import request, { CoreOptions, UriOptions } from "request";
+import { URLSearchParams } from "url";
 
 export type RegistryPackage = {
         name: string
