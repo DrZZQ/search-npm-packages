@@ -86,6 +86,15 @@ function npmSearch(search) {
             }); })
                 .catch(function (err) { return err; });
         }
+        else if (search.quantity < 20) {
+            request(createRequestParams(search))
+                .then(function (data) {
+                var allPackages = getPackages(data);
+                allPackages.splice(0, 20 - search.quantity);
+                resolve(allPackages);
+            })
+                .catch(function (err) { return reject(err); });
+        }
         else {
             request(createRequestParams(search))
                 .then(function (data) { return resolve(getPackages(data)); })

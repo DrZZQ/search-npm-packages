@@ -24,6 +24,8 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
                         requestCount = (search.quantity / 20) - 1
                     }
 
+                    // TODO: Make sure that the number of resolving packages is adjusted to the search.quantity
+
                     for (let i = 0; i < requestCount; i++) {
                         const searchResult = await request(createRequestParams(search, i))
                             .catch(err => reject(err));
@@ -35,6 +37,14 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
                 })
                 .catch(err => err)
 
+        } else if (search.quantity < 20) {
+            request(createRequestParams(search))
+                .then((data) => {
+                    const allPackages = getPackages(data);
+                    allPackages.splice(0, 20 - search.quantity);
+                    resolve(allPackages)
+                })
+                .catch(err => reject(err))
         } else {
             request(createRequestParams(search))
                 .then((data) => resolve(getPackages(data)))
