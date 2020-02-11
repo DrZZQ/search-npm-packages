@@ -27,3 +27,14 @@ test('Ranking search', () => {
     })
 })
 
+test('Quantity search', () => {
+    npmSearch({
+        name: 'cli',
+        quantity: 40
+    }).then(list => {
+        expect(list.length).toBe(40)
+    }).catch(err => {
+        throw new Error(err)
+    })
+});
+
