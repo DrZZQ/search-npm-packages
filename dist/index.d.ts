@@ -42,5 +42,6 @@ export declare type NpmSearchParams = {
     name?: string;
     keywords?: string[];
     ranking?: 'optimal' | 'maintenance' | 'popularity' | 'quality';
+    quantity?: number;
 };
 export default function npmSearch(search: NpmSearchParams): Promise<RegistryPackage[]>;

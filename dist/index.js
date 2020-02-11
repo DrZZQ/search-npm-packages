@@ -7,11 +7,14 @@ var request_1 = __importDefault(require("request"));
 var url_1 = require("url");
 function npmSearch(search) {
     return new Promise(function (resolve, reject) {
+        /**
+         * On the site npmjs.com only 20 found packages can be displayed on a single page.
+         * Therefore, we need to make several requests with the page url parameter.
+         */
         request_1.default(createRequestParams(search), function (err, res, body) {
             if (err)
                 reject(err);
-            var searchResult = JSON.parse(body).objects;
-            var allFoundPackages = searchResult.map(function (p) { return p.package; });
+            var allFoundPackages = getPackages(body);
             resolve(allFoundPackages);
         });
     });
@@ -37,4 +40,6 @@ function createRequestParams(options, page) {
         }
     };
 }
-//# sourceMappingURL=index.js.map
+function getPackages(body) {
+    return JSON.parse(body).objects.map(function (p) { return p.package; });
+}

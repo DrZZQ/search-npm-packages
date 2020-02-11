@@ -1,57 +1,8 @@
 import request, { CoreOptions, UriOptions } from "request";
 import { URLSearchParams } from "url";
+import { NpmSearchParams, NpmRegistryPackage } from "./types"
 
-export type RegistryPackage = {
-    name: string
-    scope: string
-    version: string
-    description: string
-    keywords: string[]
-    date: {
-        ts: number
-        rel: string
-    }
-    links: {
-        npm: string
-        homepage?: string
-        repository?: string
-        bugs?: string
-    },
-    author?: {
-        name: string
-        email: string
-        useaname: string
-    }
-    publisher: {
-        name: string,
-        avatars: {
-            small: string
-            medium: string
-            large: string
-        }
-        created: {
-            ts: number | null
-            rel: string
-        },
-        email: string
-    },
-    maintainers: Array<{
-        username: string
-        email: string
-    }>
-    keywordsTruncated: boolean
-}
-
-export type NpmSearchParams = {
-    name?: string
-    keywords?: string[]
-    ranking?: 'optimal' |
-        'maintenance' |
-        'popularity' |
-        'quality'
-}
-
-export default function npmSearch(search: NpmSearchParams): Promise<RegistryPackage[]> {
+export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryPackage[]> {
     return new Promise((resolve, reject) => {
         /**
          * On the site npmjs.com only 20 found packages can be displayed on a single page.
@@ -59,7 +10,7 @@ export default function npmSearch(search: NpmSearchParams): Promise<RegistryPack
          */
         request(createRequestParams(search), (err, res, body) => {
             if (err) reject(err);
-            const allFoundPackages: RegistryPackage[] = getPackages(body);
+            const allFoundPackages: NpmRegistryPackage[] = getPackages(body);
             resolve(allFoundPackages)
         })
     })
@@ -84,7 +35,7 @@ function createRequestParams(options: NpmSearchParams, page?: number): UriOption
     }
 }
 
-function getPackages(body: string): RegistryPackage[] {
+function getPackages(body: string): NpmRegistryPackage[] {
     return JSON.parse(body).objects.map(p => p.package)
 }
 
