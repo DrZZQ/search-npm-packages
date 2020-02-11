@@ -1,4 +1,4 @@
-export declare type RegistryPackage = {
+export declare type NpmRegistryPackage = {
     name: string;
     scope: string;
     version: string;
@@ -38,9 +38,42 @@ export declare type RegistryPackage = {
     }>;
     keywordsTruncated: boolean;
 };
+export declare type NpmSearchResult = {
+    formData: {
+        search: {
+            q: {
+                value: string;
+            };
+        };
+    };
+    objects: Array<{
+        package: NpmRegistryPackage;
+        score: {
+            final: number;
+            detail: {
+                quality: number;
+                popularity: number;
+                maintenance: number;
+            };
+        };
+        "searchScore": number;
+    }>;
+    total: number;
+    time: string;
+    pagination: {
+        perPage: number;
+        page: number;
+    };
+    url: string;
+    user: null;
+    csrftoken: string;
+    notifications: [];
+    npmExpansions: string[];
+    isNpme: false;
+};
 export declare type NpmSearchParams = {
     name?: string;
     keywords?: string[];
     ranking?: 'optimal' | 'maintenance' | 'popularity' | 'quality';
+    quantity?: number;
 };
-export default function npmSearch(search: NpmSearchParams): Promise<RegistryPackage[]>;
