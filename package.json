@@ -10,7 +10,7 @@
   "author": "ZZQ <ZZGaming@list.ru>",
   "scripts": {
     "build": "tsc -p .",
-    "test": "node dist/index.test.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,10 @@
     "request-promise": "^4.2.5"
   },
   "devDependencies": {
+    "@types/jest": "^25.1.2",
     "@types/node": "^13.7.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.0",
     "typescript": "^3.7.5"
   }
 }
