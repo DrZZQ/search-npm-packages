@@ -55,7 +55,7 @@ export default function npmSearch(search: NpmSearchParams): Promise<RegistryPack
     return new Promise((resolve, reject) => {
         request(createRequestParams(search), (err, res, body) => {
             if (err) reject(err);
-            const allFoundPackages = JSON.parse(body).objects.map(obj => obj.package);
+            const allFoundPackages: RegistryPackage[] = JSON.parse(body).objects.map(obj => obj.package);
             // ...
             resolve(allFoundPackages)
         })
