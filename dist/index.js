@@ -49,10 +49,10 @@ function npmSearch(search) {
          * On the site npmjs.com only 20 found packages can be displayed on a single page.
          * Therefore, we need to make several requests with the page url parameter.
          */
-        if (search.quantity > 20) {
+        if (search.quantity >= 20) {
             request(createRequestParams(search))
                 .then(function (data) { return __awaiter(_this, void 0, void 0, function () {
-                var totalFoundedPackages, allPackages, requestCount, i, searchResult, packages;
+                var totalFoundedPackages, allPackages, requestCount, i, searchResult, packages, deleteCount;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -79,6 +79,10 @@ function npmSearch(search) {
                             i++;
                             return [3 /*break*/, 1];
                         case 4:
+                            if (allPackages.length > search.quantity) {
+                                deleteCount = allPackages.length - search.quantity;
+                                allPackages.splice(0, deleteCount);
+                            }
                             resolve(allPackages);
                             return [2 /*return*/];
                     }
@@ -93,11 +97,6 @@ function npmSearch(search) {
                 allPackages.splice(0, 20 - search.quantity);
                 resolve(allPackages);
             })
-                .catch(function (err) { return reject(err); });
-        }
-        else {
-            request(createRequestParams(search))
-                .then(function (data) { return resolve(getPackages(data)); })
                 .catch(function (err) { return reject(err); });
         }
     });

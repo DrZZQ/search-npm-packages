@@ -10,7 +10,7 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
          * On the site npmjs.com only 20 found packages can be displayed on a single page.
          * Therefore, we need to make several requests with the page url parameter.
          */
-        if (search.quantity > 20) {
+        if (search.quantity >= 20) {
 
             request(createRequestParams(search))
                 .then(async data => {
@@ -24,13 +24,16 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
                         requestCount = (search.quantity / 20) - 1
                     }
 
-                    // TODO: Make sure that the number of resolving packages is adjusted to the search.quantity
-
                     for (let i = 0; i < requestCount; i++) {
                         const searchResult = await request(createRequestParams(search, i))
                             .catch(err => reject(err));
                         const packages = getPackages(searchResult);
                         packages.forEach(p => allPackages.push(p))
+                    }
+
+                    if (allPackages.length > search.quantity) {
+                        const deleteCount = allPackages.length - search.quantity;
+                        allPackages.splice(0, deleteCount)
                     }
 
                     resolve(allPackages)
@@ -44,10 +47,6 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
                     allPackages.splice(0, 20 - search.quantity);
                     resolve(allPackages)
                 })
-                .catch(err => reject(err))
-        } else {
-            request(createRequestParams(search))
-                .then((data) => resolve(getPackages(data)))
                 .catch(err => reject(err))
         }
     })
