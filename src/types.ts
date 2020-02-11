@@ -39,7 +39,7 @@ export type NpmRegistryPackage = {
     keywordsTruncated: boolean
 }
 
-type NpmSearchResult = {
+export type NpmSearchResult = {
     formData: {
         search: {
             q: {
