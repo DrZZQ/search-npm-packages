@@ -53,6 +53,10 @@ export type NpmSearchParams = {
 
 export default function npmSearch(search: NpmSearchParams): Promise<RegistryPackage[]> {
     return new Promise((resolve, reject) => {
+        /**
+         * On the site npmjs.com only 20 found packages can be displayed on a single page.
+         * Therefore, we need to make several requests with the page url parameter.
+         */
         request(createRequestParams(search), (err, res, body) => {
             if (err) reject(err);
 
