@@ -10,8 +10,8 @@ function npmSearch(search) {
         request_1.default(createRequestParams(search), function (err, res, body) {
             if (err)
                 reject(err);
-            var allFoundPackages = JSON.parse(body).objects.map(function (obj) { return obj.package; });
-            // ...
+            var searchResult = JSON.parse(body).objects;
+            var allFoundPackages = searchResult.map(function (p) { return p.package; });
             resolve(allFoundPackages);
         });
     });
