@@ -1,8 +1,8 @@
 import requestPromise, { RequestPromiseOptions } from "request-promise";
-const request = requestPromise;
 import { UriOptions } from "request";
 import { URLSearchParams } from "url";
 import { NpmSearchParams, NpmRegistryPackage, NpmSearchResult} from "./types"
+const request = requestPromise;
 
 export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryPackage[]> {
     return new Promise((resolve, reject) => {
@@ -10,12 +10,36 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
          * On the site npmjs.com only 20 found packages can be displayed on a single page.
          * Therefore, we need to make several requests with the page url parameter.
          */
-        request(createRequestParams(search))
-            .then((data) => {
-                const allFoundPackages: NpmRegistryPackage[] = getPackages(data);
-                resolve(allFoundPackages)
-            })
-            .catch(err => reject(err))
+        if (search.quantity > 20) {
+
+            request(createRequestParams(search))
+                .then(async data => {
+                    const totalFoundedPackages = data.total;
+                    const allPackages: NpmRegistryPackage[] = getPackages(data);
+
+                    let requestCount: number;
+                    if (search.quantity > totalFoundedPackages) {
+                        requestCount = (totalFoundedPackages / 20) - 1
+                    } else {
+                        requestCount = (search.quantity / 20) - 1
+                    }
+
+                    for (let i = 0; i < requestCount; i++) {
+                        const searchResult = await request(createRequestParams(search, i))
+                            .catch(err => reject(err));
+                        const packages = getPackages(searchResult);
+                        packages.forEach(p => allPackages.push(p))
+                    }
+
+                    resolve(allPackages)
+                })
+                .catch(err => err)
+
+        } else {
+            request(createRequestParams(search))
+                .then((data) => resolve(getPackages(data)))
+                .catch(err => reject(err))
+        }
     })
 }
 

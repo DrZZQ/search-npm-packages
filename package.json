@@ -2,7 +2,7 @@
   "name": "search-npm-packages",
   "version": "1.0.4",
   "description": "Promise based search for npm packages with rating search support",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "keywords": [
     "npm",
     "search"
@@ -10,7 +10,7 @@
   "author": "ZZQ <ZZGaming@list.ru>",
   "scripts": {
     "build": "tsc -p .",
-    "test": "node src/index.test.js"
+    "test": "node dist/index.test.js"
   },
   "repository": {
     "type": "git",
