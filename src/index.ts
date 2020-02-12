@@ -38,7 +38,7 @@ export default function npmSearch(search: NpmSearchParams): Promise<NpmRegistryP
 
                     resolve(allPackages)
                 })
-                .catch(err => err)
+                .catch(err => reject(err))
 
         } else if (search.quantity < 20) {
             request(createRequestParams(search))

@@ -45,7 +45,7 @@ function npmSearch(search) {
                 }
                 resolve(allPackages);
             }))
-                .catch(err => err);
+                .catch(err => reject(err));
         }
         else if (search.quantity < 20) {
             request(createRequestParams(search))
@@ -83,3 +83,4 @@ function createRequestParams(options, page) {
 function getPackages(data) {
     return data.objects.map(p => p.package);
 }
+//# sourceMappingURL=index.js.map
